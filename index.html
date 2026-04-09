@@ -211,12 +211,13 @@
         }
 
         .hero h1 {
-            font-size: clamp(3.5rem, 12vw, 7rem);
-            line-height: 1.1;
+            font-size: clamp(2.2rem, 11vw, 7rem);
+            line-height: 1.2;
             margin-bottom: 0.5rem;
             opacity: 0;
             animation: heroFadeUp 1.2s var(--ease-out-expo) forwards 1.4s;
             text-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            word-break: keep-all;
         }
 
         .hero .ampersand {
@@ -370,6 +371,10 @@
             margin-top: 3rem;
             position: relative;
             padding-top: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
         }
 
         .prologue-names::before {
@@ -428,7 +433,7 @@
 
         .floating-badge {
             position: absolute;
-            right: -20px;
+            right: 0px;
             top: 20%;
             background: var(--c-white);
             color: var(--c-gold);
@@ -524,6 +529,16 @@
             border: 1px solid rgba(255,255,255,0.4);
             pointer-events: none;
             border-radius: 4px;
+        }
+        
+        @media(max-width: 767px) {
+            .hero h1 { margin-top: 10px; }
+            .hero .ampersand { display: block; margin: 5px 0; }
+            .prologue { padding: 18vw 6vw; }
+            .floating-badge { width: 80px; height: 80px; font-size: 0.75rem; padding: 10px; }
+            .details-box { padding: 12vw 6vw; }
+            .d-timeline { flex-direction: column; gap: 0.8rem; }
+            .d-timeline .dot { display: none; }
         }
 
         /* ------------- 4. The Details (Venue & Time) ------------- */
@@ -731,9 +746,8 @@
                         见证我们的幸福时刻与浪漫誓言。
                     </p>
                     <div class="prologue-names ch-text">
-                        <span class="role">新郎</span> 魏睿韬
-                        &nbsp;&nbsp;&nbsp;&nbsp;
-                        <span class="role">新娘</span> 林佳淇
+                        <div><span class="role">新郎</span> 魏睿韬</div>
+                        <div><span class="role">新娘</span> 林佳淇</div>
                     </div>
                 </div>
 
