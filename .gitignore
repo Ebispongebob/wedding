@@ -1,0 +1,11 @@
+# IDE
+.idea/
+.DS_Store
+
+# Generated files
+*.inline.html
+wedding.png
+*.log
+
+# Project specific
+node_modules/
