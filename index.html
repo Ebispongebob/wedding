@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>魏睿韬 & 林佳淇 的婚礼邀请 | The Wedding</title>
+    <!-- 引入高定英文字体与优美的中文宋体 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Great+Vibes&family=Noto+Serif+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* 1. 变量与基础重置 */
+        :root {
+            --c-dark-ink: #1a1918;
+            --c-dark-brown: #332C27;
+            --c-gold: #ab8e65;
+            --c-gold-light: #d6caa8;
+            --c-bg: #F9F8F6;
+            --c-white: #FFFFFF;
+            --c-sage: #919B86;
+            
+            --f-serif: 'Cormorant Garamond', 'Noto Serif SC', serif;
+            --f-script: 'Great Vibes', cursive;
+            --f-ch: 'Noto Serif SC', serif;
+            
+            --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+            --ease-in-out-sine: cubic-bezier(0.445, 0.05, 0.55, 0.95);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--c-bg);
+            color: var(--c-dark-brown);
+            font-family: var(--f-ch);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* 杂色纹理增加高级质感 */
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.04;
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noise)"/></svg>');
+        }
+
+        /* 加载动画 */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--c-bg);
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 1.2s var(--ease-out-expo), visibility 1.2s;
+        }
+        .loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .loader-text {
+            font-family: var(--f-serif);
+            font-size: 2rem;
+            letter-spacing: 0.3em;
+            color: var(--c-gold);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.4; transform: scale(0.95); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        /* 基础排版系统 */
+        h1, h2, h3, h4 {
+            font-weight: normal;
+            font-family: var(--f-serif);
+        }
+        
+        .script-text {
+            font-family: var(--f-script);
+            color: var(--c-gold);
+            text-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .ch-text {
+            font-family: var(--f-ch);
+            letter-spacing: 0.15em;
+        }
+
+        .gold-gradient {
+            background: linear-gradient(135deg, #a68a61 0%, #d4c19d 50%, #a68a61 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+
+        /* Scroll Animations */
+        [data-reveal="fade-up"] {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1.2s var(--ease-out-expo), transform 1.2s var(--ease-out-expo);
+        }
+        [data-reveal="fade-up"].is-revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        [data-reveal="fade-in"] {
+            opacity: 0;
+            transition: opacity 1.5s var(--ease-in-out-sine);
+        }
+        [data-reveal="fade-in"].is-revealed {
+            opacity: 1;
+        }
+
+        [data-reveal="clip-up"] {
+            clip-path: inset(100% 0 0 0);
+            transition: clip-path 1.5s var(--ease-out-expo);
+        }
+        [data-reveal="clip-up"].is-revealed {
+            clip-path: inset(0 0 0 0);
+        }
+
+        /* Layout Container */
+        .page-container {
+            max-width: 100vw;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* ------------- 1. Hero Section ------------- */
+        .hero {
+            position: relative;
+            width: 100%;
+            height: 100vh; /* full screen */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            background: #111;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: -5%; left: -5%;
+            width: 110%; height: 110%;
+            z-index: 1;
+        }
+
+        .hero-bg img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            object-position: center 20%;
+            opacity: 0.8;
+            filter: contrast(1.05) brightness(0.85);
+            animation: slowPan 30s linear infinite alternate;
+        }
+
+        @keyframes slowPan {
+            0% { transform: scale(1) translate(0, 0); }
+            100% { transform: scale(1.05) translate(-1%, 2%); }
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(30,25,20,0.1) 0%, rgba(30,25,20,0.6) 100%);
+            z-index: 2;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            text-align: center;
+            color: var(--c-white);
+            width: 90%;
+            max-width: 800px;
+            margin-top: 10vh;
+        }
+
+        .hero .subtitle {
+            font-size: 0.85rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: heroFadeUp 1.2s var(--ease-out-expo) forwards 1.2s;
+            color: var(--c-gold-light);
+        }
+
+        .hero h1 {
+            font-size: clamp(3.5rem, 12vw, 7rem);
+            line-height: 1.1;
+            margin-bottom: 0.5rem;
+            opacity: 0;
+            animation: heroFadeUp 1.2s var(--ease-out-expo) forwards 1.4s;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+
+        .hero .ampersand {
+            font-family: var(--f-script);
+            color: var(--c-gold);
+            font-size: 1.2em;
+            display: inline-block;
+            margin: 0 10px;
+            transform: translateY(10px);
+            font-weight: normal;
+        }
+
+        .hero .names-ch {
+            font-size: 1.2rem;
+            letter-spacing: 0.5em;
+            margin-top: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: heroFadeUp 1.2s var(--ease-out-expo) forwards 1.6s;
+        }
+
+        .hero .date {
+            font-size: 1rem;
+            letter-spacing: 0.25em;
+            opacity: 0;
+            font-family: var(--f-serif);
+            animation: heroFadeUp 1.2s var(--ease-out-expo) forwards 1.8s;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+        
+        .hero .date::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 40px; height: 1px;
+            background-color: var(--c-gold-light);
+            opacity: 0.6;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 6vh;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0;
+            animation: heroFadeIn 2s var(--ease-out-expo) forwards 2.5s;
+        }
+
+        .scroll-indicator span {
+            font-size: 10px;
+            letter-spacing: 0.3em;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 60px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.5) 0%, transparent 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scroll-line::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 50%;
+            background: #fff;
+            animation: scrollLineDrop 2s ease-in-out infinite;
+        }
+
+        @keyframes scrollLineDrop {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(200%); }
+        }
+
+        @keyframes heroFadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes heroFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* ------------- 2. Prologue (Invitation Text) ------------- */
+        .prologue {
+            padding: 12vw 6vw;
+            background: var(--c-bg);
+            position: relative;
+            z-index: 10;
+        }
+
+        .prologue-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10vw;
+        }
+
+        @media(min-width: 900px) {
+            .prologue-container {
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+            }
+        }
+
+        .prologue-text {
+            flex: 1;
+            text-align: center;
+            padding: 0 4vw;
+        }
+
+        .prologue-text .script-heading {
+            font-size: clamp(3rem, 6vw, 5rem);
+            margin-bottom: -1rem;
+            transform: rotate(-3deg);
+            display: inline-block;
+        }
+
+        .prologue-text h2 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            letter-spacing: 0.3em;
+            margin-bottom: 3rem;
+            color: var(--c-dark-ink);
+        }
+
+        .prologue-text p {
+            font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+            line-height: 2.2;
+            color: #5a544f;
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .prologue-names {
+            font-size: 1.3rem;
+            letter-spacing: 0.2em;
+            color: var(--c-dark-brown);
+            margin-top: 3rem;
+            position: relative;
+            padding-top: 2rem;
+        }
+
+        .prologue-names::before {
+            content: '❦';
+            position: absolute;
+            top: 0; left: 50%;
+            transform: translateX(-50%);
+            color: var(--c-gold);
+            font-size: 1.2rem;
+            opacity: 0.6;
+        }
+
+        .prologue-names span.role {
+            font-size: 0.85rem;
+            color: var(--c-gold);
+            margin: 0 10px;
+        }
+
+        .prologue-image {
+            flex: 1;
+            position: relative;
+        }
+
+        .img-block {
+            position: relative;
+            overflow: hidden;
+            border-radius: 200px 200px 0 0;
+            aspect-ratio: 3/4;
+            max-width: 480px;
+            margin: 0 auto;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.08);
+        }
+
+        .img-block::before {
+            content: '';
+            position: absolute;
+            inset: 8px;
+            border: 1px solid rgba(255,255,255,0.7);
+            border-radius: 192px 192px 0 0;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .img-block img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            transform: scale(1.1);
+            transition: transform 2s var(--ease-out-expo);
+        }
+
+        .img-block.is-revealed img {
+            transform: scale(1);
+        }
+
+        .floating-badge {
+            position: absolute;
+            right: -20px;
+            top: 20%;
+            background: var(--c-white);
+            color: var(--c-gold);
+            padding: 15px 15px;
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-family: var(--f-serif);
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+            line-height: 1.4;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            z-index: 3;
+            animation: spin 20s linear infinite;
+        }
+
+        /* ------------- 3. Editorial Gallery ------------- */
+        .gallery-section {
+            background-color: var(--c-white);
+            padding: 10vw 4vw;
+            position: relative;
+        }
+
+        .gallery-header {
+            text-align: center;
+            margin-bottom: 8vw;
+        }
+
+        .gallery-header h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            color: var(--c-gold);
+            margin-bottom: 1rem;
+        }
+        .gallery-header p {
+            color: #888;
+            letter-spacing: 0.3em;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 4vw;
+            max-width: 1400px;
+            margin: 0 auto;
+            align-items: center;
+        }
+
+        @media(min-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: repeat(12, 1fr);
+                gap: 2vw;
+            }
+        }
+
+        .g-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 4px;
+        }
+
+        .g-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 1.2s var(--ease-out-expo);
+        }
+
+        .g-item:hover img {
+            transform: scale(1.05);
+        }
+
+        @media(min-width: 768px) {
+            .g-1 { grid-column: 2 / span 10; margin-bottom: 4vw; border-radius: 8px;} 
+            .g-2 { grid-column: 1 / span 5; margin-top: 4vw; border-radius: 8px;} 
+            .g-3 { grid-column: 7 / span 6; border-radius: 8px;} 
+            .g-4 { grid-column: 3 / span 8; margin-top: -8vw; border-radius: 8px; position: relative; z-index: 2; box-shadow: 0 30px 60px rgba(0,0,0,0.15);} 
+        }
+        @media(max-width: 767px) {
+            .g-item { margin-bottom: 4vw; border-radius: 12px; }
+            .g-item:last-child { margin-bottom: 0; }
+        }
+
+        .g-item::after {
+            content: '';
+            position: absolute;
+            inset: 10px;
+            border: 1px solid rgba(255,255,255,0.4);
+            pointer-events: none;
+            border-radius: 4px;
+        }
+
+        /* ------------- 4. The Details (Venue & Time) ------------- */
+        .details-section {
+            padding: 12vw 6vw;
+            background: var(--c-dark-brown);
+            color: var(--c-bg);
+            text-align: center;
+            position: relative;
+        }
+        
+        .details-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(166,138,97,0.12) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .details-box {
+            max-width: 800px;
+            margin: 0 auto;
+            border: 1px solid rgba(166,138,97,0.3);
+            border-radius: 16px;
+            padding: 8vw 4vw;
+            position: relative;
+            background: rgba(255,255,255,0.02);
+            backdrop-filter: blur(10px);
+        }
+
+        .details-box::before {
+            content: '';
+            position: absolute;
+            inset: 6px;
+            border: 1px solid rgba(166,138,97,0.1);
+            border-radius: 10px;
+            pointer-events: none;
+        }
+
+        .detail-row {
+            margin-bottom: 4rem;
+        }
+        .detail-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .d-label {
+            font-size: 0.8rem;
+            letter-spacing: 0.5em;
+            color: var(--c-gold);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .d-label::before, .d-label::after {
+            content: '';
+            display: inline-block;
+            width: 30px;
+            height: 1px;
+            background: var(--c-gold);
+            margin: 0 15px;
+            opacity: 0.5;
+        }
+
+        .d-value {
+            font-family: var(--f-serif);
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+            color: var(--c-white);
+        }
+
+        .d-sub {
+            font-size: 0.95rem;
+            color: rgba(255,255,255,0.6);
+            letter-spacing: 0.1em;
+            font-weight: 300;
+        }
+
+        .d-timeline {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            font-size: 1.1rem;
+            letter-spacing: 0.15em;
+        }
+        .d-timeline .dot {
+            color: var(--c-gold);
+        }
+
+        /* ------------- 5. Footer ------------- */
+        .closing-section {
+            position: relative;
+            height: 80vh;
+            min-height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--c-white);
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .closing-bg {
+            position: absolute;
+            inset: -5%;
+            z-index: 1;
+        }
+        .closing-bg img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            object-position: center 30%;
+            filter: brightness(0.65) saturate(0.9);
+        }
+
+        .closing-content {
+            position: relative;
+            z-index: 3;
+            padding: 2rem;
+        }
+
+        .closing-content .script-text {
+            font-size: clamp(3.5rem, 8vw, 6rem);
+            color: var(--c-bg); 
+            text-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            margin-bottom: 1rem;
+        }
+
+        .closing-content .ch-text {
+            font-size: 1.2rem;
+            letter-spacing: 0.4em;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        /* End Credits */
+        .footer {
+            background: #111;
+            color: rgba(255,255,255,0.4);
+            padding: 2rem;
+            text-align: center;
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            font-family: var(--f-serif);
+        }
+
+        /* Helper */
+        .ornamental-leaf {
+            width: 40px; height: 40px;
+            margin: -10px auto 20px;
+            opacity: 0.7;
+            display: block;
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- 杂色层提升质感 -->
+    <div class="noise-overlay"></div>
+
+    <!-- 预加载动画 -->
+    <div class="loader">
+        <div class="loader-text">R & J</div>
+    </div>
+
+    <div class="page-container">
+        
+        <!-- 1. 首屏模块 -->
+        <section class="hero">
+            <div class="hero-bg">
+                <img src="assert/img/000_5708.jpg" alt="Wei and Lin" class="parallax-img" data-speed="0.2">
+                <div class="hero-overlay"></div>
+            </div>
+            
+            <div class="hero-content">
+                <div class="subtitle ch-text">我 们 结 婚 啦</div>
+                <h1>Ruitao <span class="ampersand">&</span> Jiaqi</h1>
+                <div class="names-ch ch-text">魏睿韬 & 林佳淇</div>
+                <div class="date">May 04, 2026</div>
+            </div>
+
+            <div class="scroll-indicator">
+                <span class="ch-text">向 下 滑 动</span>
+                <div class="scroll-line"></div>
+            </div>
+        </section>
+
+        <!-- 2. 邀请函正文 -->
+        <section class="prologue">
+            <div class="prologue-container">
+                <div class="prologue-text" data-reveal="fade-up">
+                    <div class="script-heading script-text">A Celebration of Love</div>
+                    <h2 class="ch-text gold-gradient">百年好合，永结同心</h2>
+                    <p class="ch-text">
+                        在美好的时光岁月里，<br>
+                        我们相知、相守，决定携手共度余生。<br>
+                        诚挚地邀请您，<br>
+                        见证我们的幸福时刻与浪漫誓言。
+                    </p>
+                    <div class="prologue-names ch-text">
+                        <span class="role">新郎</span> 魏睿韬
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <span class="role">新娘</span> 林佳淇
+                    </div>
+                </div>
+
+                <div class="prologue-image" data-reveal="clip-up">
+                    <div class="img-block">
+                        <img src="assert/img/zhusha1.jpg" alt="新郎新娘肖像">
+                    </div>
+                    <!-- 装饰章印 -->
+                    <div class="floating-badge">
+                        <span>Save<br>The Date</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. 画廊区块 (Editorial Gallery) -->
+        <section class="gallery-section">
+            <div class="gallery-header" data-reveal="fade-up">
+                <h2 class="script-text">Our Memories</h2>
+                <p class="ch-text">爱的定格 浪漫瞬间</p>
+            </div>
+
+            <div class="gallery-grid">
+                <!-- 首图 -->
+                <div class="g-item g-1" data-reveal="fade-up">
+                    <img src="assert/img/002.jpg" alt="婚纱照大图">
+                </div>
+                <!-- 左下 -->
+                <div class="g-item g-2" data-reveal="fade-up">
+                    <img src="assert/img/zhusha2.jpg" alt="婚纱照肖像">
+                </div>
+                <!-- 右下 -->
+                <div class="g-item g-3" data-reveal="fade-up" style="transition-delay: 0.2s;">
+                    <img src="assert/img/000_5690.jpg" alt="婚纱照特写">
+                </div>
+                <!-- 中心重叠画卷 -->
+                <div class="g-item g-4" data-reveal="clip-up" style="transition-delay: 0.4s;">
+                    <img src="assert/img/000_5468.jpg" alt="仪式感照片">
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. 婚礼详情 (Time & Venue) -->
+        <section class="details-section">
+            <div class="details-box" data-reveal="fade-up">
+                <!-- 顶部小花边SVG -->
+                <svg class="ornamental-leaf" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="color: var(--c-gold);">
+                    <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
+                    <path d="M12 2a10 10 0 0 1 10 10c0 5.523-4.477 10-10 10"></path>
+                    <path d="M12 2A10 10 0 0 0 2 12c0 5.523 4.477 10 10 10"></path>
+                    <path d="M12 12v10"></path>
+                    <path d="M12 12A5 5 0 0 1 17 7"></path>
+                    <path d="M12 12a5 5 0 0 0-5-5"></path>
+                </svg>
+
+                <div class="detail-row">
+                    <div class="d-label ch-text">喜 宴 日 期</div>
+                    <div class="d-value">2026.05.04</div>
+                    <div class="d-sub ch-text">农历：三月十八日 （星期一）</div>
+                </div>
+
+                <div class="detail-row" style="margin-top:-1rem;">
+                    <br>
+                    <div class="d-timeline ch-text">
+                        <span>18:00 迎宾入场</span>
+                        <span class="dot">✦</span>
+                        <span>19:00 晚宴开席</span>
+                    </div>
+                </div>
+
+                <div class="detail-row" style="margin-top:4rem;">
+                    <div class="d-label ch-text">喜 宴 地 点</div>
+                    <div class="d-value ch-text" style="font-size: clamp(1.5rem, 3vw, 2.2rem);">厦门市集美区 <br> 高浦杏滨路广场</div>
+                    <br>
+                    <div class="d-sub ch-text">（杏林滨海加油站西侧）</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. 结尾致谢 -->
+        <section class="closing-section">
+            <div class="closing-bg">
+                <img src="assert/img/000_5707-36寸柏拉图.jpg" alt="Closing Photo" class="parallax-img" data-speed="0.15">
+            </div>
+            <div class="closing-content" data-reveal="fade-up">
+                <div class="script-text">Forever & Always</div>
+                <div class="ch-text">诚挚期待您的莅临，与我们共享喜悦</div>
+            </div>
+        </section>
+        
+        <footer class="footer">
+             Designed with Love for Ruitao & Jiaqi's Wedding
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Remove Loader
+            setTimeout(() => {
+                const loader = document.querySelector('.loader');
+                if(loader) loader.classList.add('hidden');
+            }, 1200);
+
+            // Intersection Observer for Elements
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px 0px -10% 0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-revealed');
+                        observer.unobserve(entry.target); 
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('[data-reveal]').forEach(el => {
+                observer.observe(el);
+            });
+
+            // Smooth high-performance parallax for hero images
+            let ticking = false;
+            let lastScrollY = window.scrollY;
+            const parallaxElements = document.querySelectorAll('.parallax-img');
+
+            function updateParallax() {
+                const wh = window.innerHeight;
+                parallaxElements.forEach(el => {
+                    const rect = el.parentElement.getBoundingClientRect();
+                    // check if section is visible
+                    if(rect.top <= wh && rect.bottom >= 0) {
+                        const speed = el.getAttribute('data-speed') || 0.1;
+                        // Move based on distance from top
+                        const yPos = rect.top * speed;
+                        el.style.transform = `translate3d(0, ${yPos}px, 0) scale(1.1)`;
+                    }
+                });
+                ticking = false;
+            }
+
+            window.addEventListener('scroll', () => {
+                lastScrollY = window.scrollY;
+                if (!ticking) {
+                    window.requestAnimationFrame(updateParallax);
+                    ticking = true;
+                }
+            }, { passive: true });
+            
+            // Initial call
+            updateParallax();
+        });
+    </script>
+</body>
+</html>
